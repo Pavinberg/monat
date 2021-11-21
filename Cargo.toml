@@ -1,0 +1,22 @@
+[package]
+name = "monat"
+version = "0.1.0"
+edition = "2018"
+authors = ["Pavinberg <pavin0702@gmail.com>"]
+license = "GPLv3"
+description = "Modern file system navigation tool"
+readme = "README.md"
+homepage = "https://github.com/Pavinberg/monat"
+repository = "https://github.com/Pavinberg/monat"
+
+[[bin]]
+name = "mn"
+path = "src/main.rs"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+structopt = "0.3.*"
+regex = "1.*"
+shellexpand = "2.1.*"
+path-absolutize = "3.*"
