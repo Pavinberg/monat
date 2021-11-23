@@ -1,5 +1,3 @@
-#!/usr/bin/env bash
-
 LOCAL_HISTORY_FILE="./.monat/history"
 HOME_HISTORY_FILE="${HOME}/.monat/history"
 
@@ -19,7 +17,7 @@ load_result() {
 	done < $1
 }
 
-_monat_completions() {
+_mn() {
 	# -c means a command
 	if [ "${COMP_WORDS[$((COMP_CWORD-1))]}" == "-c" ]; then
 		COMPREPLY=($(compgen -c "${COMP_WORDS[$COMP_CWORD]}"))
@@ -80,6 +78,6 @@ _monat_completions() {
 # if [  $satisfy_version ]; then
 # 	complete  -o default -o bashdefault -F _monat_completions monat mn
 # else
-complete  -o default -o bashdefault -o nospace -F _monat_completions monat mn
+complete  -o default -o bashdefault -o nospace -F _mn mn
 # fi
 

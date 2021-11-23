@@ -5,6 +5,7 @@ use std::path::PathBuf;
 use std::fs;
 use std::io::{Error, Write};
 use std::process::Command;
+use crate::MonatError;
 
 pub fn run_ls(path: &PathBuf) -> Result<(), Error> {
 	let meta = fs::metadata(path)?;
@@ -36,14 +37,18 @@ pub fn run_move_two(from: &PathBuf, to: &PathBuf) -> Result<(), Error> {
 }
 
 
-pub fn run_cmd(cmd: &str, args: Vec<PathBuf>) {
+pub fn run_cmd(cmd: &str, args: Vec<PathBuf>) -> Result<(), MonatError>{
 	let mut cmd_to_run = Command::new(&cmd);
 	for arg in args {
 		cmd_to_run.arg(arg);
 	}
-	let output = cmd_to_run.output().expect(&format!("Command {} failed", &cmd));
-	if !output.status.success() {
-		std::io::stderr().write_all(&output.stderr).unwrap();
+	if let Ok(output) = cmd_to_run.output() {
+		if !output.status.success() {
+			std::io::stderr().write_all(&output.stderr).unwrap();
+		}
+		std::io::stdout().write_all(&output.stdout).unwrap();
+		Ok(())
+	} else {
+		Err(MonatError::CommandNotFoundError(String::from(cmd)))
 	}
-	std::io::stdout().write_all(&output.stdout).unwrap();
 }

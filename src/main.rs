@@ -51,6 +51,7 @@ fn main() {
 pub enum MonatError {
 	IOError(std::io::Error),
 	ParseError(PathEpitomeParseError),
+	CommandNotFoundError(String),
 }
 
 impl fmt::Display for MonatError {
@@ -75,6 +76,14 @@ impl From<PathEpitomeParseError> for MonatError {
 fn start(opt: Opt) -> Result<(), MonatError> {
 	let conf = Config::new(opt.local);
 	let mut histmanager = HistManager::new(conf);
+
+	let current_dir = std::env::current_dir().unwrap();
+	if let Some(dive_path) = opt.dive {
+		let dp = PathEpitome::new(&dive_path, &mut histmanager)?.get_path();
+		if let Err(e) = std::env::set_current_dir(dp) {
+			return Err(MonatError::IOError(e));
+		}
+	}
 		
 	let paths = parse_paths(&mut histmanager, opt.from, opt.to)?;
 
@@ -83,21 +92,9 @@ fn start(opt: Opt) -> Result<(), MonatError> {
 	}
 	
 	if let Some(cmd) = opt.command {
-		if let Some(dive_path) = opt.dive {
-			let current_dir = std::env::current_dir().unwrap();
-			let dp = PathEpitome::new(&dive_path, &mut histmanager)?.get_path();
-			if let Err(e) = std::env::set_current_dir(dp) {
-				return Err(MonatError::IOError(e));
-			}
-			// let msg = format!("Run command '{}'", &cmd);
-			// println!("\x1b[1;30mINFO: {}\x1b[0m", msg);
-			run::run_cmd(&cmd, paths);
-			let _ = std::env::set_current_dir(current_dir);
-		} else {
-			// let msg = format!("Run command '{}'", &cmd);
-			// println!("\x1b[1;30mINFO: {}\x1b[0m", msg);
-			run::run_cmd(&cmd, paths);
-		}
+		// let msg = format!("Run command '{}'", &cmd);
+		// println!("\x1b[1;30mINFO: {}\x1b[0m", msg);
+		run::run_cmd(&cmd, paths)?;
 	} else {
 		match paths.len() {
 			0 => { // print history
@@ -121,6 +118,7 @@ fn start(opt: Opt) -> Result<(), MonatError> {
 			}
 		}
 	}
+	let _ = std::env::set_current_dir(current_dir);
 
 	histmanager.save();
 	
@@ -157,6 +155,9 @@ fn handle_error(error: MonatError) {
 		},
 		MonatError::ParseError(e) => {
 			eprintln!("{}", e);
+		},
+		MonatError::CommandNotFoundError(cmd) => {
+			eprintln!("CommandNotFoundError:  command '{}' not found", cmd);
 		}
 	}
 }

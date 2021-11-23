@@ -57,7 +57,11 @@ impl HistManager {
 					self.changed = true;
 				}
 		} else {
-			let abs_record = fs::canonicalize(record).unwrap();
+			let mut rec = record.clone();
+			if rec == PathBuf::new() {
+				rec = PathBuf::from(".");
+			}
+			let abs_record = fs::canonicalize(rec).unwrap();
 			if !self.records.iter().any(|r| *r == abs_record) { // hasn't added
 				self.records.push_back(abs_record);
 				self.changed = true;
