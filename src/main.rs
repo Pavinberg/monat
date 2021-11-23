@@ -22,6 +22,7 @@ use monat::run;
 
 /// StructOpt for the command
 #[derive(Debug, StructOpt)]
+#[structopt(about = "Modern file system navigation tool on Unix")]
 struct Opt {
 	#[structopt(short, long, help="Run another command")]
 	command: Option<String>,
