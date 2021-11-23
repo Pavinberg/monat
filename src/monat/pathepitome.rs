@@ -50,7 +50,7 @@ impl PathEpitome {
 		}
 	}
 
-	fn simplify_relative_path(path: PathBuf) -> PathBuf {
+	fn simplify_relative_path(path: &PathBuf) -> PathBuf {
 		let current_dir = Path::new(".").absolutize().unwrap();
 		path.absolutize().unwrap().strip_prefix(current_dir).unwrap().to_path_buf()
 	}
@@ -61,7 +61,7 @@ impl PathEpitome {
 			let (hist_idx, suffix_str) = PathEpitome::parse_path_str(path)?;
 			let prefix = histmanager.get(hist_idx)
 				.ok_or(PathEpitomeParseError::IndexOutOfRangeError(hist_idx))?;
-			histmanager.add_if_nonexists(PathEpitome::simplify_relative_path(prefix.clone()));
+			histmanager.add_if_nonexists(PathEpitome::simplify_relative_path(&prefix));
 			Ok(PathEpitome {
 				has_epitome: true,
 				hist_idx,
@@ -72,32 +72,22 @@ impl PathEpitome {
 		} else {
 			// regular path
 			let pathbuf = PathBuf::from(path);
-			if pathbuf.is_dir() {
-				histmanager.add_if_nonexists(PathEpitome::simplify_relative_path(pathbuf.clone()));
+			let prefix = pathbuf.parent().unwrap_or(Path::new(".")).to_path_buf();
+			histmanager.add_if_nonexists(PathEpitome::simplify_relative_path(&prefix));
+			if let Some(suffix) = PathBuf::from(path).file_name() {
 				Ok(PathEpitome {
 					has_epitome: false,
 					hist_idx: 0,
-					prefix: pathbuf,
-					suffix: PathBuf::from("")
+					prefix,
+					suffix: PathBuf::from(suffix)
 				})
-			} else {
-				let prefix = pathbuf.parent().unwrap_or(Path::new("")).to_path_buf();
-				histmanager.add_if_nonexists(PathEpitome::simplify_relative_path(prefix.clone()));
-				if let Some(suffix) = PathBuf::from(path).file_name() {
-					Ok(PathEpitome {
-						has_epitome: false,
-						hist_idx: 0,
-						prefix,
-						suffix: PathBuf::from(suffix)
-					})
-				} else { // usually when path is "."
-					Ok(PathEpitome {
-						has_epitome: false,
-						hist_idx: 0,
-						prefix,
-						suffix: pathbuf
-					})
-				}
+			} else { // usually when path is "."
+				Ok(PathEpitome {
+					has_epitome: false,
+					hist_idx: 0,
+					prefix,
+					suffix: pathbuf
+				})
 			}
 		}
 	}
