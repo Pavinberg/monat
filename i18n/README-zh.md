@@ -75,27 +75,27 @@
 
 	```shell
 	$ cd path/to/the/
-	$ source update.sh
+	$ make
 	$ cd -
 	```
 	
 	尽管你可以写成一行，但如此你便不能对文件名做自动补全：
 	
 	```shell
-	$ cd path/to/the/ && source update.sh; cd -
+	$ cd path/to/the/ && make; cd -
 	```
 	
 	而在 `monat` 中，我们可以输入：
 	
 	```shell
-	$ mn -d ,1 -c source update.sh
+	$ mn -d ,1 -c make
 	```
 	
 	这样写的优点在于：
 	
 	1. 用一行写下更短的命令， 
 	
-	2. `update.sh` 文件名可以通过按下 `<TAB>` 进行自动补全。
+	2. `make` 命令可以通过按下 `<TAB>` 进行自动补全。如果你的命令还要传递文件名作为参数，`monat` 也可以直接为你补全文件名。
 	
 记住在 Bash 中你总是可以按下 `<TAB>` 来补全路径、命令名和文件名，包括逗号与数字表示的路径，这样的输入非常的方便快速。对于其它 shell 的支持我们会在后续添加。
 

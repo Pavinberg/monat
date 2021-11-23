@@ -77,27 +77,27 @@
 
 	```shell
 	$ cd path/to/the/
-	$ source update.sh
+	$ make
 	$ cd -
 	```
 	
-	Though you can gather them into one line, you can't have filename autocompletion though:
+	Though you can gather them into one line, you can't have comamnd or filename autocompletion though:
 	
 	```shell
-	$ cd path/to/the/ && source update.sh; cd -
+	$ cd path/to/the/ && make; cd -
 	```
 	
 	In `monat` we can input:
 	
 	```shell
-	$ mn -d ,1 -c source update.sh
+	$ mn -d ,1 -c make
 	```
 	
 	The advantages are:
 	
 	1. short command in one line, 
 	
-	2. the `update.sh` filename can be autocompleted by pressing `<TAB>`.
+	2. the `make` command can be autocompleted by pressing `<TAB>`. Also if you want to pass some filenames to the command, `monat` will complete it for you.
 
 Remember you can always press `<TAB>` to complete the path, command and filename in Bash, including the one represented by comma and number, which is very easy to input the whole command. Support for other shells will be added in future.
 
