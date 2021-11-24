@@ -99,6 +99,26 @@
 	
 记住在 Bash 中你总是可以按下 `<TAB>` 来补全路径、命令名和文件名，包括逗号与数字表示的路径，这样的输入非常的方便快速。对于其它 shell 的支持我们会在后续添加。
 
+## 安装
+
+### macOS
+
+使用 [Homebrew](https://brew.sh)：
+
+```shell
+$ brew tap Pavinberg/monat
+$ brew install monat
+```
+
+想要使用 Bash 的自动补全，需要再安装 `bash-completion`，并向 `~/.bashrc` 中添加一行内容。运行以下两句命令即可：
+
+```shell
+$ brew install bash-completion
+$ echo "source $(brew --prefix)/etc/bash_completion" >> ~/.bashrc
+```
+
+重启 Bash 或执行 `source ~/.bashrc` 刷新。
+
 ## 使用说明
 
 ### 语法

@@ -101,6 +101,26 @@
 
 Remember you can always press `<TAB>` to complete the path, command and filename in Bash, including the one represented by comma and number, which is very easy to input the whole command. Support for other shells will be added in future.
 
+## Installation
+
+### macOS
+
+Use [Homebrew](https://brew.sh):
+
+```shell
+$ brew tap Pavinberg/monat
+$ brew install monat
+```
+
+To use Bash auto-completions, first install `bash-completion` and add one line to `~/.bashrc`. Run the following commands will do that for you:
+
+```shell
+$ brew install bash-completion
+$ echo "source $(brew --prefix)/etc/bash_completion" >> ~/.bashrc
+```
+
+Restart the Bash or run `source ~/.bashrc`.
+
 ## Usage
 
 ### Syntax
