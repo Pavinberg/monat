@@ -112,14 +112,49 @@ $ brew tap Pavinberg/monat
 $ brew install monat
 ```
 
-To use Bash auto-completions, first install `bash-completion` and add one line to `~/.bashrc`. Run the following commands will do that for you:
+To use Bash auto-completions, add one line to `~/.bashrc`. Run the following commands will do that for you:
 
 ```shell
-$ brew install bash-completion
 $ echo "source $(brew --prefix)/etc/bash_completion" >> ~/.bashrc
 ```
 
-Restart the Bash or run `source ~/.bashrc`.
+This will use the Formulae [*bash-completion*](https://formulae.brew.sh/formula/bash-completion). Restart the Bash or run `source ~/.bashrc`.
+
+To uninstall:
+
+```shell
+$ brew uninstall monat
+```
+
+### Debian/Ubuntu
+
+Download the `deb` file and install:
+
+```shell
+$ curl -LO https://github.com/Pavinberg/monat/releases/download/v0.1.1/monat_0.1.1_amd64.deb
+$ sudo dpkg -i monat_0.1.1_amd64.deb
+```
+
+You can remove the `monat_0.1.1_amd64.deb` file after installation. `bash-completion` is enabled by default in Ubuntu. Or you need to add the following lines in your `~/.bashrc`: 
+
+```shell
+# enable programmable completion features (you don't need to enable
+# this, if it's already enabled in /etc/bash.bashrc and /etc/profile
+# sources /etc/bash.bashrc).
+if ! shopt -oq posix; then
+   if [ -f /usr/share/bash-completion/bash_completion ]; then
+     . /usr/share/bash-completion/bash_completion
+   elif [ -f /etc/bash_completion ]; then
+     . /etc/bash_completion
+   fi
+fi
+```
+
+To uninstall:
+
+```shell
+$ sudo dpkg -r monat
+```
 
 ## Usage
 

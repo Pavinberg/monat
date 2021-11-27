@@ -110,14 +110,49 @@ $ brew tap Pavinberg/monat
 $ brew install monat
 ```
 
-想要使用 Bash 的自动补全，需要再安装 `bash-completion`，并向 `~/.bashrc` 中添加一行内容。运行以下两句命令即可：
+想要使用 Bash 的自动补全，需要向 `~/.bashrc` 中添加一行内容。运行以下命令即可：
 
 ```shell
-$ brew install bash-completion
 $ echo "source $(brew --prefix)/etc/bash_completion" >> ~/.bashrc
 ```
 
-重启 Bash 或执行 `source ~/.bashrc` 刷新。
+这会使用 [*bash-completion*](https://formulae.brew.sh/formula/bash-completion) 来进行补全。重启 Bash 或执行 `source ~/.bashrc` 刷新。
+
+卸载：
+
+```shell
+$ brew uninstall monat
+```
+
+### Debian/Ubuntu
+
+下载 `deb` 文件后安装：
+
+```shell
+$ curl -LO https://github.com/Pavinberg/monat/releases/download/v0.1.1/monat_0.1.1_amd64.deb
+$ sudo dpkg -i monat_0.1.1_amd64.deb
+```
+
+安卓后即可删除 `monat_0.1.1_amd64.deb` 文件。`bash-completion` 功能在 Ubuntu 中默认开启，如果没有，你需要在 `~/.bashrc` 中加入以下内容：
+
+```shell
+# enable programmable completion features (you don't need to enable
+# this, if it's already enabled in /etc/bash.bashrc and /etc/profile
+# sources /etc/bash.bashrc).
+if ! shopt -oq posix; then
+   if [ -f /usr/share/bash-completion/bash_completion ]; then
+     . /usr/share/bash-completion/bash_completion
+   elif [ -f /etc/bash_completion ]; then
+     . /etc/bash_completion
+   fi
+fi
+```
+
+卸载：
+
+```shell
+$ sudo dpkg -r monat
+```
 
 ## 使用说明
 
